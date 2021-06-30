@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $jumlahsurat = SuratMasuk::count();
+    return view('welcome', compact('jumlahsurat'));
 });
 
 Route::get('/suratmasuk', [SuratMasukController::class, 'index'])->name('suratmasuk');

@@ -16,20 +16,19 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <a href="/tambahsuratmasuk" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</a>
+                                    <a href="/tambahsuratmasuk" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertModal"><i class="fas fa-plus"></i> Tambah</a>
+                                    {{-- {{ Session::get('halaman_url') }} --}}
 
                                     <a href="/exportpdf" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Export PDF</a>
 
                                     <a href="/exportexcel" class="btn btn-success"><i class="fas fa-file-excel"></i> Export Excel</a>
 
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Import Data
-                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-file-import"></i> Import Data</button>
 
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
                                             <form action="/suratmasuk" method="GET">
-                                                <input type="search" id="inputPassword6" name="search" class="form-control" aria-describedby="passwordHelpInline">
+                                                <input type="search" id="inputPassword6" name="search" class="form-control" aria-describedby="passwordHelpInline" placeholder="Search">
                                             </form>
                                         </div>
                                     </div>
@@ -69,20 +68,105 @@
                                                 <td>{{ $row->disposisi }}</td>
                                                 <td>{{ $row->posisi_terakhir }}</td>
                                                 <td>
-                                                    <a href="/tampilkansuratmasuk/{{ $row->id }}" class="btn btn-warning">Edit</a>
-                                                    <a href="#" class="btn btn-danger delete" data-id="{{ $row->id }}" data-no_surat="{{ $row->no_surat }}">Delete</a>
+                                                    <a href="/tampilkansuratmasuk/{{ $row->id }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="#" class="btn btn-danger delete" data-id="{{ $row->id }}" data-no_surat="{{ $row->no_surat }}"><i class="fas fa-trash"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
 
-                                    <!-- Modal -->
+                                    <!-- Insert Data Modal -->
+                                    <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="/insertsuratmasuk" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">No.Surat</label>
+                                                        <input type="text" name="no_surat" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukan No.Surat">
+                                                        @error('no_surat')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">No.Agenda</label>
+                                                        <input type="number" name="no_agenda" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukan No.Agenda">
+                                                        @error('no_agenda')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Tanggal PKPA</label>
+                                                        <input type="date" name="tanggal_pkpa" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                        @error('tanggal_pkpa')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputPassword1" class="form-label">Tanggal Surat</label>
+                                                        <input type="date" name="tanggal_surat" class="form-control" id="exampleInputPassword1">
+                                                        @error('tanggal_surat')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                                                        <textarea name="perihal" class="form-control" placeholder="Perihal Surat" id="floatingTextarea"></textarea>
+                                                        @error('perihal')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputPassword1" class="form-label">Dari</label>
+                                                        <input type="text" name="dari" class="form-control" id="exampleInputPassword1" placeholder="Surat Dari">
+                                                        @error('dari')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputPassword1" class="form-label">Kepada</label>
+                                                        <input type="text" name="kepada" class="form-control" id="exampleInputPassword1" placeholder="Surat Kepada">
+                                                        @error('kepada')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputPassword1" class="form-label">Disposisi</label>
+                                                        <input type="text" name="disposisi" class="form-control" id="exampleInputPassword1" placeholder="Surat Disposisi">
+                                                        @error('disposisi')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputPassword1" class="form-label">Posisi Terakhir</label>
+                                                        <input type="text" name="posisi_terakhir" class="form-control" id="exampleInputPassword1" placeholder="Penerima Surat">
+                                                        @error('posisi_terakhir')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                                </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Import Data Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <form action="/importexcel" method="POST" enctype="multipart/form-data">
@@ -101,6 +185,7 @@
                                                 </form>
                                         </div>
                                     </div>
+                                    <br>
                                     <!-- Button trigger modal -->
                                     {{ $data->links() }}
                                 </div>
@@ -140,7 +225,7 @@
             if (willDelete) {
                 window.location = "/deletesuratmasuk/"+suratmasukid+""
                 swal("Data berhasil di hapus", {
-                icon: "sukses",
+                icon: "success",
                 });
             } else {
                 swal("Data tidak jadi dihapus");
@@ -149,8 +234,8 @@
     });
     </script>
     <script>
-    @if (Session::has('sukses'))
-    toastr.success("{{ Session::get('sukses') }}")
+    @if (Session::has('success'))
+    toastr.success("{{ Session::get('success') }}")
     @endif
     </script>
 @endpush

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\SuratMasukController;
 use App\Models\SuratMasuk;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SuratMasukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $jumlahsurat = SuratMasuk::count();
     return view('welcome', compact('jumlahsurat'));
-});
+})->middleware('auth');
 
-Route::get('/suratmasuk', [SuratMasukController::class, 'index'])->name('suratmasuk');
+Route::get('/suratmasuk', [SuratMasukController::class, 'index'])->name('suratmasuk')->middleware('auth');
 
 Route::get('/tambahsuratmasuk', [SuratMasukController::class, 'tambahsuratmasuk'])->name('tambahsuratmasuk');
 Route::post('/insertsuratmasuk', [SuratMasukController::class, 'insertsuratmasuk'])->name('insertsuratmasuk');
@@ -32,6 +33,15 @@ Route::get('/deletesuratmasuk/{id}', [SuratMasukController::class, 'deletesuratm
 Route::get('/exportpdf', [SuratMasukController::class, 'exportpdf'])->name('exportpdf');
 //export Excel
 Route::get('/exportexcel', [SuratMasukController::class, 'exportexcel'])->name('exportexcel');
-
+//import Excel
 Route::post('/importexcel', [SuratMasukController::class, 'importexcel'])->name('importexcel');
+//Login
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/loginproses', [LoginController::class, 'loginproses'])->name('loginproses');
+//Register
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/registeruser', [LoginController::class, 'registeruser'])->name('registeruser');
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
 

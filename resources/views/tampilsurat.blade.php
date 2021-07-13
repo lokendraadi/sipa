@@ -2,9 +2,11 @@
 
 @section('content')
 <body>
-    <h1 class="text-center mb-4">Edit Surat Masuk</h1>
+    <br>
+    <br>
+    <h1 class="text-center mb-5 mt-5">Edit Surat Masuk</h1>
 
-    <div class="container">
+    <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="card">

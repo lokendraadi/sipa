@@ -18,7 +18,7 @@ use App\Http\Controllers\SuratMasukController;
 
 Route::get('/', function () {
     $jumlahsurat = SuratMasuk::count();
-    return view('welcome', compact('jumlahsurat'));
+    return view('dashboard', compact('jumlahsurat'));
 })->middleware('auth');
 
 Route::get('/suratmasuk', [SuratMasukController::class, 'index'])->name('suratmasuk')->middleware('auth');

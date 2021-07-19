@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function login()
     {
-        return view('login');
+        return view('auths.login');
     }
 
     public function loginproses(Request $request)
@@ -25,7 +25,7 @@ class LoginController extends Controller
 
     public function register()
     {
-        return view('register');
+        return view('auths.register');
     }
 
     public function registeruser(Request $request)
